@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const images = [
   {
@@ -68,7 +68,6 @@ const images = [
 
 const gallery = document.querySelector('.gallery');
 const allImagesEl = [];
-let modal;
 
 function createGalleryItem({ preview, description, original }) {
   const liEl = document.createElement('li');
@@ -96,17 +95,22 @@ gallery.addEventListener('click', event => {
     return;
   }
   event.preventDefault();
-  modal = basicLightbox.create(`
-    <img src="${event.target.parentElement.href}" width="1112" height="640">
-`);
-  modal.show();
-  document.addEventListener(
-    'keydown',
-    event => {
-      if (event.key == 'Escape') {
-        modal.close();
-      }
+  const modal = basicLightbox.create(
+    `
+    <img src="${event.target.dataset.source}" width="1112" height="640">
+`,
+    {
+      onShow: instance => {
+        document.addEventListener('keydown', event => {
+          if (event.key == 'Escape') {
+            modal.close();
+          }
+        });
+      },
+      onClose: instance => {
+        document.removeEventListener('keydown', event => {});
+      },
     },
-    { once: true },
   );
+  modal.show();
 });
