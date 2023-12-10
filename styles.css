@@ -12,7 +12,7 @@
 }
 
 .gallery-image:hover {
-  cursor: url("../icons/hand.svg"), auto;
+  cursor: url("hand.svg"), auto;
   transition: 500ms linear;
   transform: scale(1.044444);
 }
