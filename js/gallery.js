@@ -92,6 +92,9 @@ for (const image of images) {
 gallery.append(...allImagesEl);
 
 gallery.addEventListener('click', event => {
+  if (event.target.nodeName != 'IMG') {
+    return;
+  }
   event.preventDefault();
   modal = basicLightbox.create(`
     <img src="${event.target.parentElement.href}" width="1112" height="640">
