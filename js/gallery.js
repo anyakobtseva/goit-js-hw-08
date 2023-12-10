@@ -70,18 +70,18 @@ const gallery = document.querySelector('.gallery');
 const allImagesEl = [];
 let modal;
 
-function createGalleryItem(image) {
+function createGalleryItem({ preview, description, original }) {
   const liEl = document.createElement('li');
   liEl.className = 'gallery-item';
   const linkEl = document.createElement('a');
   linkEl.className = 'gallery-link';
-  linkEl.href = image.original;
+  linkEl.href = original;
   liEl.appendChild(linkEl);
   const imEl = document.createElement('img');
   imEl.className = 'gallery-image';
-  imEl.src = image.preview;
-  imEl.alt = image.description;
-  imEl.dataset.source = image.original;
+  imEl.src = preview;
+  imEl.alt = description;
+  imEl.dataset.source = original;
   linkEl.appendChild(imEl);
   return liEl;
 }
