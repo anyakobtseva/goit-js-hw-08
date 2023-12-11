@@ -68,6 +68,7 @@ const images = [
 
 const gallery = document.querySelector('.gallery');
 const allImagesEl = [];
+let modal;
 
 function createGalleryItem({ preview, description, original }) {
   const liEl = document.createElement('li');
@@ -90,25 +91,29 @@ for (const image of images) {
 }
 gallery.append(...allImagesEl);
 
+const handleEscape = (event) => {
+  if (event.key == 'Escape') {
+    modal.close();
+  }
+}
+
 gallery.addEventListener('click', event => {
   if (event.target.nodeName != 'IMG') {
     return;
   }
   event.preventDefault();
-  const modal = basicLightbox.create(
+  //To be safe
+  const { original } = images.find(image => image.description == event.target.alt)
+  modal = basicLightbox.create(
     `
-    <img src="${event.target.dataset.source}" width="1112" height="640">
+    <img src="${original}" width="1112" height="640">
 `,
     {
-      onShow: instance => {
-        document.addEventListener('keydown', event => {
-          if (event.key == 'Escape') {
-            modal.close();
-          }
-        });
+      onShow: () => {
+        document.addEventListener('keydown', handleEscape);
       },
-      onClose: instance => {
-        document.removeEventListener('keydown', event => {});
+      onClose: () => {
+        document.removeEventListener('keydown', handleEscape);
       },
     },
   );
